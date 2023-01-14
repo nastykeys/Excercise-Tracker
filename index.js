@@ -6,7 +6,11 @@ const User = require('./database')
 const bodyParser = require('body-parser')
 require('dotenv').config()
 
-app.use(cors())
+app.use(cors({
+  origin: "*",
+  credentials: true
+}))
+
 app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
