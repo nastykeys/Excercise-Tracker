@@ -19,7 +19,6 @@ const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
 
-console.log({} == {})
 
 app.post('/api/users', (req, res, next) => {
  let newUser = new User({
@@ -49,7 +48,6 @@ app.get('/api/users', (req, res) => {
 
 
 app.post('/api/users/:_id/exercises', (req, res, next) =>{
-  console.log(req.body)
   let givenDate = !req.body.date ? new Date() : req.body.date
   User.findById(req.body[':_id'], (err, user) =>{
     if(err){
@@ -86,7 +84,6 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       if(err){
         return next(err)
       }
-      console.log(user)
       let d1 = new Date(req.query.from)
       let d2 = new Date(req.query.to)
       res.json({
@@ -109,7 +106,6 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       if(err){
         return next(err)
       }
-      console.log(user)
       res.json({
         username: user.username,
         count: user.count,
