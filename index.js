@@ -6,12 +6,10 @@ const User = require('./database')
 const bodyParser = require('body-parser')
 require('dotenv').config()
 
-app.use(cors({
-  origin: "*",
-  credentials: true
-}))
+app.use(cors())
 
 app.use(express.static('public'))
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
@@ -51,7 +49,7 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/users/:_id/exercises', (req, res, next) =>{
   let givenDate = !req.body.date ? new Date() : req.body.date
-  User.findById(req.body[':_id'], (err, user) =>{
+  User.findById(req.params._id, (err, user) =>{
     if(err){
       return next(err)
     }
