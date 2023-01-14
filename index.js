@@ -30,9 +30,7 @@ app.post('/api/users', (req, res, next) => {
       if(err) {
         return next(err)
       }
-      User.findById(data._id, (err, user) => {
-        res.json({user: user.username, _id: user._id})
-      })
+      res.json({user: data.username, _id: data._id})
     })
 })
 
@@ -63,14 +61,12 @@ app.post('/api/users/:_id/exercises', (req, res, next) =>{
       if(err) {
         return next(err)
       }
-      User.findById(data._id, (err, user) => {
-        res.json({
-          username: user.username,
-          description: user.log[user.log.length - 1].description,
-          duration: user.log[user.log.length - 1].duration,
-          date: new Date(user.log[user.log.length - 1].date).toDateString(),
-          _id: user._id
-        })
+      res.json({
+        username: data.username,
+        description: data.log[user.log.length - 1].description,
+        duration: data.log[data.log.length - 1].duration,
+        date: new Date(data.log[data.log.length - 1].date).toDateString(),
+        _id: data._id
       })
     })
   })
