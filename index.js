@@ -35,8 +35,10 @@ app.post('/api/users', (req, res, next) => {
       }
       userInfo._id = data._id
       userInfo.username = data.username
+    }).then(err => {
+      res.send(userInfo).end()
     })
-    res.send(userInfo).end()
+    
 })
 
 app.get('/api/users', (req, res) => {
@@ -72,8 +74,9 @@ app.post('/api/users/:_id/exercises', (req, res, next) =>{
       exercisesInfo.duration = data.log[data.log.length - 1].duration,
       exercisesInfo.date = new Date(data.log[data.log.length - 1].date).toDateString(),
       exercisesInfo._id = data._id
+    }).then( err => {
+      res.json(exercisesInfo)
     })
-    res.json(exercisesInfo)
   })
 })
 
