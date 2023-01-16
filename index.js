@@ -41,9 +41,9 @@ app.get('/api/users', (req, res) => {
  User.find().then(data => {
   let users = []
   for (let i = 0; i < data.length; i++){
-    users.push({user: data[i].username, _id: data[i]._id})
+    users.push({ _id: data[i]._id, username: data[i].username})
   }
-  res.send(users)
+  res.json(users)
  })
 })
 
