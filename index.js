@@ -80,7 +80,7 @@ app.post('/api/users/:_id/exercises', (req, res, next) =>{
 
 
 app.get('/api/users/:_id/logs', (req, res, next) => {
-  if(req.query.from && req.query.to && req.query.limit){
+  if(req.query.from || req.query.to || req.query.limit){
     User.findById(req.params._id, (err, user) => {
       if(err){
         return next(err)
@@ -92,14 +92,14 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
         count: user.count,
         _id: user._id,
         log: user.log.map(log => {
-          if(d1 <= new Date(log.date) && d2 >= new Date(log.date)){
+          if(d1 <= new Date(log.date) || d2 >= new Date(log.date)){
             return {
               description: log.description,
               duration: log.duration,
               date: new Date(log.date).toDateString()
             }
           }
-        }).slice(0, req.query.limit)
+        }).slice(0, req.query.limit || user.count)
       })
     })
   }else{
