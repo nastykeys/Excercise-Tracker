@@ -87,19 +87,23 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       }
       let d1 = new Date(req.query.from)
       let d2 = new Date(req.query.to)
+      let newLog = user.log.map(log => {
+        if(d1 <= new Date(log.date) || d2 >= new Date(log.date)){
+          return {
+            description: log.description,
+            duration: log.duration,
+            date: new Date(log.date).toDateString()
+          }
+        }else {
+          user.count -= 1
+          return
+        }
+      }).slice(0, req.query.limit || user.count)
       res.json({
         username: user.username,
-        count: user.count,
         _id: user._id,
-        log: user.log.map(log => {
-          if(d1 <= new Date(log.date) || d2 >= new Date(log.date)){
-            return {
-              description: log.description,
-              duration: log.duration,
-              date: new Date(log.date).toDateString()
-            }
-          }
-        }).slice(0, req.query.limit || user.count)
+        count: user.count,
+        log: newLog
       })
     })
   }else{
