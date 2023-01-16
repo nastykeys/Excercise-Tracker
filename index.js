@@ -87,7 +87,7 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       }
       let d1 = new Date(req.query.from)
       let d2 = new Date(req.query.to)
-      res.send({
+      res.json({
         username: user.username,
         count: user.count,
         _id: user._id,
@@ -107,7 +107,7 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       if(err){
         return next(err)
       }
-      res.send({
+      res.json({
         username: user.username,
         count: user.count,
         _id: user._id,
