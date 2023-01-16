@@ -23,7 +23,7 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
 
 app.post('/api/users', (req, res, next) => {
-  let userInfo = {}
+
  let newUser = new User({
       username: req.body.username,
       count: 0,
@@ -33,10 +33,7 @@ app.post('/api/users', (req, res, next) => {
       if(err) {
         return next(err)
       }
-      userInfo._id = data._id
-      userInfo.username = data.username
-    }).then(err => {
-      res.send(userInfo).end()
+      res.json({_id: data._id, username: data.username})
     })
     
 })
@@ -53,7 +50,7 @@ app.get('/api/users', (req, res) => {
 
 
 app.post('/api/users/:_id/exercises', (req, res, next) =>{
-  let exercisesInfo = {}
+  
   let givenDate = !req.body.date ? new Date() : req.body.date
   User.findById(req.params._id, (err, user) =>{
     if(err){
@@ -69,13 +66,13 @@ app.post('/api/users/:_id/exercises', (req, res, next) =>{
       if(err) {
         return next(err)
       }
-      exercisesInfo.username = data.username,
-      exercisesInfo.description = data.log[user.log.length - 1].description,
-      exercisesInfo.duration = data.log[data.log.length - 1].duration,
-      exercisesInfo.date = new Date(data.log[data.log.length - 1].date).toDateString(),
-      exercisesInfo._id = data._id
-    }).then( err => {
-      res.json(exercisesInfo)
+      res.send({
+        username: data.username,
+        description: data.log[user.log.length - 1].description,
+        duration: data.log[data.log.length - 1].duration,
+        date: new Date(data.log[data.log.length - 1].date).toDateString(),
+        _id: data._id
+      })
     })
   })
 })
