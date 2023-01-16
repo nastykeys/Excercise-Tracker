@@ -23,6 +23,7 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
 
 app.post('/api/users', (req, res, next) => {
+  console.log(req.params)
  let newUser = new User({
       username: req.body.username,
       count: 0,
@@ -32,7 +33,7 @@ app.post('/api/users', (req, res, next) => {
       if(err) {
         return next(err)
       }
-      res.json({user: data.username, _id: data._id})
+      res.send({user: data.username, _id: data._id})
     })
 })
 
@@ -48,6 +49,7 @@ app.get('/api/users', (req, res) => {
 
 
 app.post('/api/users/:_id/exercises', (req, res, next) =>{
+  console.log(req.params)
   let givenDate = !req.body.date ? new Date() : req.body.date
   User.findById(req.params._id, (err, user) =>{
     if(err){
@@ -63,7 +65,7 @@ app.post('/api/users/:_id/exercises', (req, res, next) =>{
       if(err) {
         return next(err)
       }
-      res.json({
+      res.send({
         username: data.username,
         description: data.log[user.log.length - 1].description,
         duration: data.log[data.log.length - 1].duration,
@@ -84,7 +86,7 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       }
       let d1 = new Date(req.query.from)
       let d2 = new Date(req.query.to)
-      res.json({
+      res.send({
         username: user.username,
         count: user.count,
         _id: user._id,
@@ -104,7 +106,7 @@ app.get('/api/users/:_id/logs', (req, res, next) => {
       if(err){
         return next(err)
       }
-      res.json({
+      res.send({
         username: user.username,
         count: user.count,
         _id: user._id,
